@@ -11,16 +11,24 @@ interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  title: 'From notes to keynote',
-  description: 'A presentation template that explains how to make it your own.',
-  author: 'The presentation template',
-  tagline: 'Your story, built with agents and ready to share.',
+  title: 'Aspire 17.0',
+  description: 'What changed in Aspire 17, the migration work to expect, and the developer workflows moving forward.',
+  author: 'Aspire release briefing',
+  tagline: 'A resource-first release for dashboard, CLI, polyglot, and deployment workflows.',
   primaryLink: {
-    label: 'Create your repo',
-    href: 'https://github.com/sinannar/presentation',
+    label: 'Read the official release',
+    href: 'https://aspire.dev/whats-new/aspire-17/',
   },
   sections: [
     { id: 'docs', label: 'Docs', href: '/docs/' },
     { id: 'news', label: 'News', href: '/news/' },
   ],
+  presentation: {
+    sections: [
+      { name: 'Release overview', items: ['news/aspire-17-release'] },
+      { name: 'What changed', items: ['news/aspire-17-dashboard', 'news/aspire-17-cli'] },
+      { name: 'Platforms', items: ['news/aspire-17-polyglot-deployment'] },
+      { name: 'Upgrade', items: ['news/aspire-17-migration'] },
+    ],
+  },
 } as const;

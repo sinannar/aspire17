@@ -21,7 +21,13 @@ test('selected scenes and attributed news images build under a project base with
     writeFileSync(news, readFileSync(news, 'utf8').replace('---\ntitle:', `---\n${image}title:`));
     writeFileSync(join(root, 'src/content/news/unpublished.md'), '---\ntitle: Secret draft marker\nsummary: Hidden\ncategory: Test\npublished: 2026-01-01\ndraft: true\n---\nHidden\n');
     const config = join(root, 'site.config.ts');
-    writeFileSync(config, readFileSync(config, 'utf8').replace("  sections: [", "  presentation: { sections: [{ name: 'Selected', items: ['news/template-workflow', 'news/unpublished', 'docs/getting-started'] }] },\n  sections: ["));
+    writeFileSync(
+      config,
+      readFileSync(config, 'utf8').replace(
+        /  presentation:\s*\{[\s\S]*?\n  \},\n/,
+        "  presentation: { sections: [{ name: 'Selected', items: ['news/template-workflow', 'news/unpublished', 'docs/getting-started'] }] },\n",
+      ),
+    );
     const result = spawnSync('npm', ['run', 'build'], {
       cwd: root, encoding: 'utf8', env: { ...process.env, ASTRO_BASE: '/sample-presentation/', ASTRO_TELEMETRY_DISABLED: '1' }, timeout: 120000,
     });
