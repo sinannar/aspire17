@@ -114,7 +114,9 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
       return;
     }
     const current = getIndex();
-    const quickEntries = visible.filter((entry) => ['home', 'sections', 'highlights'].includes(entry.kind));
+    const quickEntries = search.value.trim()
+      ? []
+      : visible.filter((entry) => ['home', 'sections', 'highlights'].includes(entry.kind));
     if (quickEntries.length) {
       const quick = element('section', 'scene-map__quick');
       const quickTitle = element('h3', 'scene-map__quick-title', 'Quick navigation');
@@ -246,9 +248,13 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
     if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return;
     const destinations = [...results.querySelectorAll<HTMLButtonElement>('.scene-map__destination, .scene-map__step')]
       .filter((button) => !button.disabled && !button.closest('details:not([open])'));
-    if (event.target === search && event.key === 'Enter' && destinations[0]) {
+    if (event.target === search && event.key === 'Enter') {
       event.preventDefault();
-      destinations[0].click();
+      const matches = searchSceneMap(entries, search.value).filter((entry) =>
+        !visibility.scenes.has(entry.id) && !visibility.sections.has(sceneMapSection(entry)));
+      const contentMatch = matches.find((entry) => entry.kind === 'content');
+      if (contentMatch) navigate(contentMatch.index, 0);
+      else if (matches[0]) navigate(matches[0].index, 0);
     } else if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') &&
       (event.target === search || destinations.includes(event.target as HTMLButtonElement)) && destinations.length) {
       event.preventDefault();
