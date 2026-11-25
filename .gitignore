@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+coverage/
+.env
+.env.*
+!.env.example
+sources/*
+!sources/.gitkeep
+!sources/news/
+!sources/workflows/
+authoring/*
+!authoring/.gitkeep
+.DS_Store
